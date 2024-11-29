@@ -1,22 +1,19 @@
-import '../styles/globals.css';
+import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-//import Footer3 from "../components/Footer3";
-//import adspage from "../pages/adspage";
-//import Navstrap2 from "../components/Navbar2";
-import { AuthContextProvider } from '../context/AuthContext';
-import { useRouter } from 'next/router';
+//import Navbar2 from '../components/Navbar2';
+//import Footer from '../components/Footer';
+import { UserAuthContextProvider } from '../context/UserAuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
-//import 'bootstrap/dist/css/bootstrap.css';
-import Script from 'next/script';
+import { useRouter } from 'next/router';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+//import { GoogleFonts } from 'next-google-fonts';
 
-const noAuthRequired = ['/login', '/signup'];
+const noAuthRequired = ['/phonesignup', '/signup', '/login'];
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
   return (
-    <AuthContextProvider>
+    <UserAuthContextProvider>
       {noAuthRequired.includes(router.pathname) ? (
         <Component {...pageProps} />
       ) : (
@@ -24,8 +21,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </ProtectedRoute>
       )}
-    </AuthContextProvider>
+    </UserAuthContextProvider>
   );
 }
-
-export default MyApp;

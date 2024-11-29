@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import styles from '../../styles/Scanner.module.css';
 import Navbar from '../../components/navbar';
+import { AuthContextProvider } from '../../context/AuthContext';
 
 export default function Scanner() {
   const [rooms, setRooms] = useState([]);
@@ -83,50 +84,52 @@ export default function Scanner() {
   if (!isClient) return null; // Prevent SSR mismatches by avoiding rendering on the server
 
   return (
-    <div>
-      <Navbar />
-      <div className={styles.container}>
-        <h1>نموذج إدخال بيانات اجهزة التابلت</h1>
-        <div className={styles['form-group']}>
-          <label>الصف:</label>
-          {isClient && (
-            <Select
-              className="react-select-container"
-              options={rooms}
-              onChange={handleRoomChange}
-              value={selectedRoom}
+    <AuthContextProvider>
+      <div>
+        <Navbar />
+        <div className={styles.container}>
+          <h1>نموذج إدخال بيانات اجهزة التابلت</h1>
+          <div className={styles['form-group']}>
+            <label>الصف:</label>
+            {isClient && (
+              <Select
+                className="react-select-container"
+                options={rooms}
+                onChange={handleRoomChange}
+                value={selectedRoom}
+              />
+            )}
+          </div>
+          <div className={styles['form-group']}>
+            <label>اسم الطالبة:</label>
+            {isClient && (
+              <Select
+                className="react-select-container"
+                options={filteredStudents}
+                onChange={setSelectedStudent}
+                value={selectedStudent}
+              />
+            )}
+          </div>
+          <div className={styles['form-group']}>
+            <label>رقم السيريال:</label>
+            <input
+              type="text"
+              value={serialNumber}
+              onChange={(e) => setSerialNumber(e.target.value)}
             />
-          )}
-        </div>
-        <div className={styles['form-group']}>
-          <label>اسم الطالبة:</label>
-          {isClient && (
-            <Select
-              className="react-select-container"
-              options={filteredStudents}
-              onChange={setSelectedStudent}
-              value={selectedStudent}
+          </div>
+          <div className={styles['form-group']}>
+            <label>IMEI:</label>
+            <input
+              type="text"
+              value={imei}
+              onChange={(e) => setImei(e.target.value)}
             />
-          )}
+          </div>
+          <button onClick={handleSave}>تسجيل البيانات</button>
         </div>
-        <div className={styles['form-group']}>
-          <label>رقم السيريال:</label>
-          <input
-            type="text"
-            value={serialNumber}
-            onChange={(e) => setSerialNumber(e.target.value)}
-          />
-        </div>
-        <div className={styles['form-group']}>
-          <label>IMEI:</label>
-          <input
-            type="text"
-            value={imei}
-            onChange={(e) => setImei(e.target.value)}
-          />
-        </div>
-        <button onClick={handleSave}>تسجيل البيانات</button>
       </div>
-    </div>
+    </AuthContextProvider>
   );
 }

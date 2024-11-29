@@ -12,14 +12,15 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <ul>
-        <li className={styles.item}>
-          <p style={{ color: 'white' }}>
-            {user ? auth.currentUser.displayName : 'No User'}
-          </p>
-          <a onClick={logout} className={styles.link}>
-            {user && <button>خروج</button>}
-          </a>
-        </li>
+        {user && (
+          <li className={styles.item}>
+            <a onClick={logout} className={styles.link}>
+              {user && <span>{user.email}</span>}
+              <br />
+              {user && <button>خروج</button>}
+            </a>
+          </li>
+        )}
         <li>
           <Link href="/scanner/page">التابلت</Link>
         </li>

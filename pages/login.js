@@ -26,9 +26,11 @@ function LoginPage() {
 
     login(email, password);
     if (!user) {
-      router.push('/Login');
+      router.push('/login');
+      console.log(user);
     } else {
       router.push('/home');
+      console.log(user);
     }
   };
 

@@ -1,28 +1,26 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth'; // Import Firebase Auth
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useAuthContext } from '../hooks/useAuthContext';
 
-const MainPage = () => {
+const Home = () => {
+  const { user } = useAuthContext(); // Access the user from AuthContext
   const router = useRouter();
-  const auth = getAuth(); // Initialize Firebase Auth instance
 
   useEffect(() => {
-    // Check authentication state on load
+    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is logged in, navigate to home page
-        router.push('/home');
+        router.push('/home'); // Redirect to home if user is logged in
       } else {
-        // User is not logged in, navigate to login page
-        router.push('/login');
+        router.push('/login'); // Redirect to login if not logged in
       }
     });
 
-    // Cleanup the listener on component unmount
-    return () => unsubscribe();
-  }, [auth, router]);
+    return () => unsubscribe(); // Clean up the listener
+  }, [router]);
 
-  return <div>Loading...</div>; // Optional: Show a loading state while checking auth
+  return <div>Loading...</div>; // Placeholder content while redirecting
 };
 
-export default MainPage;
+export default Home;
