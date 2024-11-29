@@ -24,7 +24,7 @@ export default function Students() {
         <Link href="/students/first-year/page">
           <section id="first-year" className={styles.gradeSection}>
             <h2>طلاب الصف الأول</h2>
-            <Link href="/scanner/" legacyBehavior>
+            <Link href="/scanner/page" legacyBehavior>
               <span>الذهاب الى نموذج التابلت</span>
             </Link>
 

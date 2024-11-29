@@ -13,7 +13,7 @@ export const useLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
         dispatch({ type: 'LOGIN', payload: res.user });
-        router.push('/students/page');
+        router.push('/home');
         console.log(res.user);
       })
       .catch((err) => {

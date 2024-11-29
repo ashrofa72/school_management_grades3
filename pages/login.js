@@ -25,10 +25,10 @@ function LoginPage() {
     // Here you can add your own code to make an API request to your server
 
     login(email, password);
-    if (user) {
+    if (!user) {
       router.push('/Login');
     } else {
-      router.push('/students/page');
+      router.push('/home');
     }
   };
 
