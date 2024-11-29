@@ -19,6 +19,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "hooks/useAuthContext.tsx",
+    "components/ProtectedRoute.js"
+  ],
   "exclude": ["node_modules"]
 }

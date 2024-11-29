@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  direction: ltr; /* Ensures left-to-right direction */
+  text-align: right;
+  font-family: 'Marhey', sans-serif;
+}
+
+.header {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #333;
+}
+
+.dropdown {
+  margin: 20px 0;
+  display: flex; /* Display items in a row */
+  justify-content: center; /* Center items horizontally */
+}
+
+.dropdown div {
+  margin: 0 10px; /* Add horizontal space between the dropdown menus */
+  direction: rtl;
+}
+
+.dropdown label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.dropdown select {
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.content {
+  padding: 40px 20px;
+  margin: 20px 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-top: 2px solid #ddd;
+}
+
+.footer p {
+  margin: 0;
+  color: #666;
+}

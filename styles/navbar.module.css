@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
+
+.navbar {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  float: left;
+  font-family: Marhey, sans-serif;
+}
+
+.navbar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar li a:hover {
+  background-color: #111;
+}
+.navbar button {
+  border: none;
+  font-weight: bold;
+  background-color: transparent;
+  color: white;
+  font-family: 'Marhey', sans-serif;
+  font-size: 15px;
+}
