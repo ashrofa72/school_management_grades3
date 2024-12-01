@@ -13,11 +13,11 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <ul>
         {user && (
-          <li className={styles.item}>
-            <a onClick={logout} className={styles.link}>
+          <li className={styles.navbar}>
+            <a onClick={logout} className={styles.navbar}>
               {user && <span>{user.email}</span>}
               <br />
-              {user && <button>خروج</button>}
+              {user && <button className={styles.button}>خروج</button>}
             </a>
           </li>
         )}

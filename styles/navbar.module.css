@@ -30,10 +30,7 @@
   background-color: #111;
 }
 .navbar button {
-  border: none;
-  font-weight: bold;
-  background-color: transparent;
-  color: white;
-  font-family: 'Marhey', sans-serif;
-  font-size: 15px;
+  font-family: Marhey, sans-serif;
+  font-size: 20px;
+  padding: 5px 20px;
 }

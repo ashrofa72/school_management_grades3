@@ -63,6 +63,7 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s ease;
+  font-family: Marhey, sans-serif;
 }
 
 .container button:hover {

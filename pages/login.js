@@ -39,7 +39,7 @@ function LoginPage() {
       <h1>نموذج الدخول</h1>
       <form onSubmit={handleSubmit}>
         <label className={styles.label}>
-          Email:
+          البريد الإلكتروني:
           <input
             type="email"
             value={email}
@@ -49,7 +49,7 @@ function LoginPage() {
         </label>
         <br />
         <label className={styles.label}>
-          Password:
+          كلمة المرور:{' '}
           <input
             type="password"
             value={password}
@@ -59,7 +59,7 @@ function LoginPage() {
         </label>
         <br />
         <button type="submit" className={styles.button}>
-          Login
+          دخول النظام
         </button>
       </form>
     </div>
