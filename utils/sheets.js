@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 
-export async function getSheetData(Room, Subject) {
+export async function getSheetData(Room, Subject, Month) {
   try {
     const jwt = new google.auth.JWT(
       process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
@@ -13,7 +13,7 @@ export async function getSheetData(Room, Subject) {
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.SPREADSHEET_ID,
-      range: 'combined_exams!A1:Z', // Adjust range to your sheet
+      range: 'Students_grades2024!A1:Z', // Adjust range to your sheet
     });
 
     const rows = response.data.values;
@@ -29,17 +29,23 @@ export async function getSheetData(Room, Subject) {
       return acc;
     }, {});
 
+    if (!columnMap['Month']) {
+      throw new Error('Month column not found in the spreadsheet.');
+    }
+
     const filteredAndSortedDataRows = dataRows
       .map((row) => ({
         FullName: row[columnMap['FullName']],
         Room: row[columnMap['Room']],
-        Subject: row[columnMap['Subject']],
+        Subject: row[columnMap['Course']],
         StartDate: row[columnMap['StartDate']],
         SISUserID: row[columnMap['SISUserID']],
         Total: row[columnMap['Total']],
+        Month: row[columnMap['Month']],
       }))
       .filter(
-        (row) => row.Room === Room && row.Subject === Subject // Filter by both Room and Subject
+        (row) =>
+          row.Room === Room && row.Subject === Subject && row.Month === Month // Filter by Room, Subject, and Month
       )
       .sort((a, b) => a.FullName.localeCompare(b.FullName));
 

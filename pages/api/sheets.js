@@ -3,17 +3,17 @@ import { getSheetData } from '../../utils/sheets';
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const { Room, Subject } = req.query;
+      const { Room, Subject, Month } = req.query;
 
       // Validate query parameters
-      if (!Room || !Subject) {
-        return res
-          .status(400)
-          .json({ error: 'Both Room and Subject parameters are required' });
+      if (!Room || !Subject || !Month) {
+        return res.status(400).json({
+          error: 'Room, Subject, and Month parameters are required',
+        });
       }
 
       // Fetch data from Google Sheets using the utils function
-      const data = await getSheetData(Room, Subject);
+      const data = await getSheetData(Room, Subject, Month);
 
       res.status(200).json(data);
     } catch (error) {

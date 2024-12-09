@@ -9,6 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 export default function SecondYear() {
   const [selectedRoom, setSelectedRoom] = useState('2-1');
   const [selectedSubject, setSelectedSubject] = useState('Biology');
+  const [selectedMonth, setSelectedMonth] = useState('October'); // State for month
   const [dataRows, setDataRows] = useState([]);
   const [error, setError] = useState(null);
   const tableRef = useRef(); // Reference to the table for printing
@@ -17,10 +18,10 @@ export default function SecondYear() {
     async function fetchData() {
       try {
         console.log(
-          `Fetching data for Room: ${selectedRoom}, Subject: ${selectedSubject}`
+          `Fetching data for Room: ${selectedRoom}, Subject: ${selectedSubject}, Month: ${selectedMonth}`
         );
         const response = await fetch(
-          `/api/sheets?Room=${selectedRoom}&Subject=${selectedSubject}`
+          `/api/sheets?Room=${selectedRoom}&Subject=${selectedSubject}&Month=${selectedMonth}`
         );
 
         if (!response.ok) {
@@ -39,7 +40,7 @@ export default function SecondYear() {
     }
 
     fetchData();
-  }, [selectedRoom, selectedSubject]);
+  }, [selectedRoom, selectedSubject, selectedMonth]);
 
   const handleRoomChange = (event) => {
     setSelectedRoom(event.target.value);
@@ -47,6 +48,10 @@ export default function SecondYear() {
 
   const handleSubjectChange = (event) => {
     setSelectedSubject(event.target.value);
+  };
+
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
   };
 
   const handlePrint = () => {
@@ -61,17 +66,16 @@ export default function SecondYear() {
             @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
             body {
               font-family: Marhey, sans-serif;
-           
             }
-              h1{
-                 direction:rtl;
-                 font-size: 15px;
-                 text-align:right;
-              }
+            h1 {
+              direction: rtl;
+              font-size: 15px;
+              text-align: right;
+            }
             table {
               border-collapse: collapse;
               width: 100%;
-              direction:rtl;
+              direction: rtl;
               font-family: Marhey, sans-serif;
               font-size: 10px;
             }
@@ -83,7 +87,7 @@ export default function SecondYear() {
           </style>
         </head>
         <body>
-         <h1 >المادة: ${selectedSubject}</h1> <!-- Display selected subject -->
+          <h1>المادة: ${selectedSubject} | الشهر: ${selectedMonth}</h1>
           ${printContent}
         </body>
       </html>
@@ -109,6 +113,7 @@ export default function SecondYear() {
           <section className={styles.header}>
             <h1>طلاب الصف الثاني</h1>
           </section>
+
           {/* Dropdown Section */}
           <section className={styles.dropdown}>
             <div>
@@ -143,9 +148,35 @@ export default function SecondYear() {
                 <option value="Maths 1 Arts">Maths 1 Arts</option>
                 <option value="Maths 2">Maths 2</option>
                 <option value="Chemistry">Chemistry</option>
+                <option value="French Second Language">
+                  French Second Language
+                </option>
+                <option value="Geography">Geography</option>
+                <option value="German Second Language">
+                  German Second Language
+                </option>
+                <option value="History">History</option>
+                <option value="Physics">Physics</option>
+                <option value="Psychology">Psychology</option>
+                <option value="Spanish Second Language">
+                  Spanish Second Language
+                </option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="months">اختار الشهر:</label>
+              <select
+                id="months"
+                value={selectedMonth}
+                onChange={handleMonthChange}
+              >
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="Term 1">Term 1</option>
               </select>
             </div>
           </section>
+
           {/* Data Table Section */}
           <section className={styles.content}>
             {error && <p>{error}</p>}
@@ -153,7 +184,7 @@ export default function SecondYear() {
               <div>
                 <button
                   className={`${styles2.printButton}`}
-                  onClick={handlePrint} // Print button
+                  onClick={handlePrint}
                 >
                   طباعة الجدول
                 </button>
@@ -185,9 +216,10 @@ export default function SecondYear() {
                 </div>
               </div>
             ) : (
-              !error && <p>لا يوجد سجلات موجودة للصف والمادة المحددين</p>
+              !error && <p>لا يوجد سجلات موجودة للصف والمادة والشهر المحددين</p>
             )}
           </section>
+
           {/* Footer Section */}
           <footer className={styles.footer}>
             <p>&copy; 2024 فاطمة الزهراء الثانوية للبنات</p>

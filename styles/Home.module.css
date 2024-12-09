@@ -86,8 +86,7 @@
   max-width: 1000px;
 }
 .grid a:hover {
-  background-color: rgb(247, 146, 15);
-  color: white;
+  color: #ff8000;
   cursor: pointer;
 }
 
