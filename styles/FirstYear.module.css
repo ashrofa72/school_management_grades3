@@ -65,3 +65,44 @@
   margin: 0;
   color: #666;
 }
+.container button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  font-family: Marhey, sans-serif;
+}
+
+.container button:hover {
+  background-color: #0056b3;
+}
+
+.container button:active {
+  background-color: #004085;
+}
+
+.container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .container h1 {
+    font-size: 20px;
+  }
+
+  .container button {
+    font-size: 16px;
+  }
+}

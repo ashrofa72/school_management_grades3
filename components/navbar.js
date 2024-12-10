@@ -22,7 +22,7 @@ const Navbar = () => {
           </li>
         )}
         <li>
-          <Link href="/scanner/page">التابلت</Link>
+          <Link href="/scanner/page">إدخال التابلت</Link>
         </li>
         <li>
           <Link href="/students/third-year/page">الصف الثالث </Link>

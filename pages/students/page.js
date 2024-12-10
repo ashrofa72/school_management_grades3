@@ -25,7 +25,11 @@ export default function Students() {
           <section id="first-year" className={styles.gradeSection}>
             <h2>طلاب الصف الأول</h2>
             <Link href="/scanner/page" legacyBehavior>
-              <span>الذهاب الى نموذج التابلت</span>
+              <span>الذهاب الى نموذج إدخال التابلت</span>
+            </Link>
+            <br />
+            <Link href="/students/first-year/tabletdata" legacyBehavior>
+              <span> عرض بيانات تسجيل التابلت </span>
             </Link>
 
             <Image

@@ -71,3 +71,7 @@
   margin: 0;
   color: #666;
 }
+.container span {
+  color: red;
+  text-decoration: underline;
+}
