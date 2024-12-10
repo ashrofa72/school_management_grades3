@@ -41,14 +41,23 @@ export default function ScannerDataPage() {
     printWindow.document.write(`
       <html>
         <head>
-          <title>Scanner Data Table</title>
+          <title>بيانات تسجيل التابلت2024</title>
           <style>
+          @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
+          body {
+              font-family: Marhey, sans-serif;
+            }
+             h1 {
+              direction: rtl;
+              font-size: 15px;
+              text-align: right;
+            }
             table {
               border-collapse: collapse;
               width: 100%;
-              font-family: Arial, sans-serif;
-              font-size: 12px;
-            }
+              direction: rtl;
+              font-family: Marhey, sans-serif;
+              font-size: 10px;
             th, td {
               border: 1px solid black;
               padding: 8px;
@@ -57,7 +66,7 @@ export default function ScannerDataPage() {
           </style>
         </head>
         <body>
-          <h1>Scanner Data</h1>
+          <h1> 2024 بيانات التابلت</h1>
           ${printContent}
         </body>
       </html>
