@@ -2,8 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
 .container {
   padding: 0 2rem;
-
+  background-color: black;
   width: 100dvw;
+  color: white;
 }
 
 .main {
@@ -84,6 +85,7 @@
   justify-content: center;
   flex-wrap: wrap;
   max-width: 1000px;
+  color: white;
 }
 .grid a:hover {
   color: #ff8000;

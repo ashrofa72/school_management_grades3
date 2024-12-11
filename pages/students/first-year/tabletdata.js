@@ -8,15 +8,18 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function ScannerDataPage() {
   const [dataRows, setDataRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
   const [error, setError] = useState(null);
-  const tableRef = useRef(); // Reference to the table for printing
+  const [classrooms, setClassrooms] = useState([]);
+  const [selectedClassroom, setSelectedClassroom] = useState('');
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState('');
+  const tableRef = useRef();
 
   useEffect(() => {
     async function fetchData() {
       try {
-        console.log('Fetching Scanner Data...');
         const response = await fetch('/api/scannerdata');
-
         if (!response.ok) {
           throw new Error(
             `Network response was not ok: ${response.status} - ${response.statusText}`
@@ -24,8 +27,11 @@ export default function ScannerDataPage() {
         }
 
         const data = await response.json();
-        console.log('Fetched Data:', data);
         setDataRows(data);
+
+        // Extract unique classrooms
+        const uniqueClassrooms = [...new Set(data.map((row) => row.Classroom))];
+        setClassrooms(uniqueClassrooms.sort());
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('Failed to fetch data. Please try again.');
@@ -35,6 +41,29 @@ export default function ScannerDataPage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Filter students based on selected classroom
+    if (selectedClassroom) {
+      const classroomStudents = dataRows
+        .filter((row) => row.Classroom === selectedClassroom)
+        .map((row) => row.Name);
+      setStudents([...new Set(classroomStudents)].sort());
+    } else {
+      setStudents([]);
+    }
+    setSelectedStudent('');
+  }, [selectedClassroom, dataRows]);
+
+  useEffect(() => {
+    // Filter rows based on selected classroom and student
+    const filtered = dataRows.filter(
+      (row) =>
+        (!selectedClassroom || row.Classroom === selectedClassroom) &&
+        (!selectedStudent || row.Name === selectedStudent)
+    );
+    setFilteredRows(filtered);
+  }, [selectedClassroom, selectedStudent, dataRows]);
+
   const handlePrint = () => {
     const printContent = tableRef.current.innerHTML;
     const printWindow = window.open('', '_blank');
@@ -43,11 +72,11 @@ export default function ScannerDataPage() {
         <head>
           <title>بيانات تسجيل التابلت2024</title>
           <style>
-          @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
-          body {
+            @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
+            body {
               font-family: Marhey, sans-serif;
             }
-             h1 {
+            h1 {
               direction: rtl;
               font-size: 15px;
               text-align: right;
@@ -58,6 +87,7 @@ export default function ScannerDataPage() {
               direction: rtl;
               font-family: Marhey, sans-serif;
               font-size: 10px;
+            }
             th, td {
               border: 1px solid black;
               padding: 8px;
@@ -93,10 +123,39 @@ export default function ScannerDataPage() {
             <h1>بيانات التابلت 2024</h1>
           </section>
 
-          {/* Data Table Section */}
           <section className={styles.content}>
             {error && <p>{error}</p>}
-            {dataRows.length > 0 ? (
+
+            <div className={styles.filters}>
+              <select
+                className={styles.dropdown}
+                value={selectedClassroom}
+                onChange={(e) => setSelectedClassroom(e.target.value)}
+              >
+                <option value="">اختر الفصل</option>
+                {classrooms.map((classroom) => (
+                  <option key={classroom} value={classroom}>
+                    {classroom}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className={styles.dropdown}
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+                disabled={!selectedClassroom}
+              >
+                <option value="">اختر اسم الطالب</option>
+                {students.map((student) => (
+                  <option key={student} value={student}>
+                    {student}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {filteredRows.length > 0 ? (
               <div>
                 <button className={styles.button} onClick={handlePrint}>
                   طباعة الجدول
@@ -113,7 +172,7 @@ export default function ScannerDataPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {dataRows.map((row, index) => (
+                      {filteredRows.map((row, index) => (
                         <tr key={index}>
                           <td>{row.Date}</td>
                           <td>{row.Name}</td>
@@ -131,7 +190,6 @@ export default function ScannerDataPage() {
             )}
           </section>
 
-          {/* Footer Section */}
           <footer className={styles.footer}>
             <p>&copy; 2024 Your School</p>
             <p>Developed by Ashraf</p>
