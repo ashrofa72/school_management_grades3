@@ -63,8 +63,8 @@ export default function FirstYear() {
 
         {/* Footer Section */}
         <footer className={styles.footer}>
-          <p>&copy; مدرسة فاطمة الزهراء الثانوية بنات 2024</p>
-          <p>Prog/Ashraf Eltayb</p>
+          <p>&copy; 2024 مدرسة فاطمة الزهراء الثانوية للبنات</p>
+          <p>Developed by Ashraf Eltayb</p>
         </footer>
       </div>
     </div>

@@ -3,7 +3,7 @@ import ProtectedRoute from '../../../components/ProtectedRoute';
 import Head from 'next/head';
 import Navbar from '../../../components/navbar';
 import styles2 from '../../../styles/Table.module.css';
-import styles from '../../../styles/FirstYear.module.css';
+import styles from '../../../styles/tabletData.module.css';
 import { useState, useEffect, useRef } from 'react';
 
 export default function ScannerDataPage() {
@@ -191,8 +191,8 @@ export default function ScannerDataPage() {
           </section>
 
           <footer className={styles.footer}>
-            <p>&copy; 2024 Your School</p>
-            <p>Developed by Ashraf</p>
+            <p>&copy; 2024 مدرسة فاطمة الزهراء الثانوية للبنات</p>
+            <p>Developed by Ashraf Eltayb</p>
           </footer>
         </div>
       </div>

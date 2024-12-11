@@ -2,7 +2,7 @@
 import ProtectedRoute from '../../../components/ProtectedRoute';
 import Head from 'next/head';
 import Navbar from '../../../components/navbar';
-import styles from '../../../styles/FirstYear.module.css';
+import styles from '../../../styles/SecondYear.module.css';
 import styles2 from '../../../styles/Table.module.css';
 import { useState, useEffect, useRef } from 'react';
 
@@ -222,8 +222,8 @@ export default function SecondYear() {
 
           {/* Footer Section */}
           <footer className={styles.footer}>
-            <p>&copy; 2024 فاطمة الزهراء الثانوية للبنات</p>
-            <p>Prog/Ashraf Eltayb</p>
+            <p>&copy; 2024 مدرسة فاطمة الزهراء الثانوية للبنات</p>
+            <p>Developed by Ashraf Eltayb</p>
           </footer>
         </div>
       </div>

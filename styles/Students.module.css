@@ -15,6 +15,12 @@
   text-align: center;
   border-bottom: 2px solid #ddd;
 }
+.gradeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .gradeSection span {
   font-weight: bold;
   font-size: large;
@@ -74,4 +80,8 @@
 .container span {
   color: red;
   text-decoration: underline;
+  background-color: #f8f8f8;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
 }

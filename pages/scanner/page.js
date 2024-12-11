@@ -128,6 +128,10 @@ export default function Scanner() {
             />
           </div>
           <button onClick={handleSave}>تسجيل البيانات</button>
+          <footer className={styles.footer}>
+            <p>&copy; 2024 مدرسة فاطمة الزهراء الثانوية للبنات</p>
+            <p>Developed by Ashraf Eltayb</p>
+          </footer>
         </div>
       </div>
     </AuthContextProvider>

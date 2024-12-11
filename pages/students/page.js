@@ -27,7 +27,7 @@ export default function Students() {
             <Link href="/scanner/page" legacyBehavior>
               <span>الذهاب الى نموذج إدخال التابلت</span>
             </Link>
-            <br />
+
             <Link href="/students/first-year/tabletdata" legacyBehavior>
               <span> عرض بيانات تسجيل التابلت </span>
             </Link>
@@ -74,8 +74,8 @@ export default function Students() {
 
         {/* Footer Section */}
         <footer className={styles.footer}>
-          <p>&copy; 2024 فاطمة الزهراء الثانوية للبنات</p>
-          <p>Prog/Ashraf Eltayb</p>
+          <p>&copy; 2024 مدرسة فاطمة الزهراء الثانوية للبنات</p>
+          <p>Developed by Ashraf Eltayb</p>
         </footer>
       </div>
     </div>
