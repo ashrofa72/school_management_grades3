@@ -15,7 +15,7 @@ const Navbar = () => {
         {user && (
           <li className={styles.navbar}>
             <a onClick={logout} className={styles.navbar}>
-              {user && <span>{user.email}</span>}
+              {user && <span>{user.displayName}</span>}
               <br />
               {user && <button className={styles.button}>خروج</button>}
             </a>

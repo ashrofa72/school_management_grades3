@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth'; // Import onAuthStateChanged
 import Navbar from '../../components/navbar';
 import styles from '../../styles/MarksInsertion.module.css';
 
@@ -24,6 +25,25 @@ export default function StudentEvaluationPage() {
     Behavior: '',
     MonthlyExams: '',
   });
+  const [user, setUser] = useState(null);
+
+  // Fetch user data
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser({
+          displayName: currentUser.displayName,
+          email: currentUser.email,
+        });
+      } else {
+        console.error('No user is logged in.');
+      }
+    });
+
+    // Cleanup subscription
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     async function fetchStudents() {
@@ -48,6 +68,12 @@ export default function StudentEvaluationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      alert('User is not logged in.');
+      return;
+    }
+
     try {
       const response = await fetch('/api/studentsdata', {
         method: 'POST',
@@ -55,6 +81,8 @@ export default function StudentEvaluationPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          displayName: user.displayName,
+          email: user.email,
           classroom: selectedClassroom,
           studentName: selectedStudent,
           subject: selectedSubject,

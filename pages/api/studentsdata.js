@@ -42,7 +42,14 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const { studentName, classroom, subject, evaluationData } = req.body;
+      const {
+        studentName,
+        classroom,
+        subject,
+        evaluationData,
+        displayName,
+        email,
+      } = req.body;
 
       await sheets.spreadsheets.values.append({
         spreadsheetId: process.env.SPREADSHEET_ID, // Add your spreadsheet ID
@@ -59,6 +66,8 @@ export default async function handler(req, res) {
               evaluationData.Homework,
               evaluationData.Behavior,
               evaluationData.MonthlyExams,
+              displayName,
+              email,
             ],
           ],
         },
