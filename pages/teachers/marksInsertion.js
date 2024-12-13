@@ -5,18 +5,21 @@ import Navbar from '../../components/navbar';
 import styles from '../../styles/MarksInsertion.module.css';
 
 export default function StudentEvaluationPage() {
-  const [classrooms, setClassrooms] = useState([
-    '2-1',
-    '2-2',
-    '2-3',
-    '2-4',
-    '2-5',
-    '2-6',
-    '2-7',
+  const [firstClassrooms, setFirstClassrooms] = useState([
+    'الصف الأول',
+    'الصف الثاني',
   ]);
-  const [subjects, setSubjects] = useState(['English', 'Biology', 'Chemistry']);
-  const [students, setStudents] = useState([]);
+  const [classrooms, setClassrooms] = useState([]);
+  const [selectedFirstClassroom, setSelectedFirstClassroom] = useState('');
   const [selectedClassroom, setSelectedClassroom] = useState('');
+  const [subjects, setSubjects] = useState([
+    'انجليزي',
+    'احياء',
+    'كيمياء',
+    'فيزياء',
+    'جغرافيا',
+  ]);
+  const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [evaluationData, setEvaluationData] = useState({
@@ -66,6 +69,20 @@ export default function StudentEvaluationPage() {
     fetchStudents();
   }, [selectedClassroom]);
 
+  const handleFirstClassroomChange = (e) => {
+    const value = e.target.value;
+    setSelectedFirstClassroom(value);
+
+    // Update classrooms based on the selected first classroom
+    if (value === 'الصف الأول') {
+      setClassrooms(['1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '1-7', '1-8']);
+    } else if (value === 'الصف الثاني') {
+      setClassrooms(['2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7']);
+    } else {
+      setClassrooms([]); // Clear classrooms if no valid selection
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,15 +128,31 @@ export default function StudentEvaluationPage() {
     <div>
       <Navbar />
       <div className={styles.container}>
-        <h1>Student Evaluation</h1>
+        <h1>نموذج ادخال درجات التقييم</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles.filters}>
+            {/* First Dropdown Menu */}
+            <select
+              className={styles.dropdown}
+              value={selectedFirstClassroom}
+              onChange={handleFirstClassroomChange}
+            >
+              <option value="">اختار المرحلة</option>
+              {firstClassrooms.map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+
+            {/* Second Dropdown Menu */}
             <select
               className={styles.dropdown}
               value={selectedClassroom}
               onChange={(e) => setSelectedClassroom(e.target.value)}
+              disabled={!classrooms.length}
             >
-              <option value="">Select Classroom</option>
+              <option value="">اختار الفصل</option>
               {classrooms.map((classroom) => (
                 <option key={classroom} value={classroom}>
                   {classroom}
@@ -133,7 +166,7 @@ export default function StudentEvaluationPage() {
               onChange={(e) => setSelectedStudent(e.target.value)}
               disabled={!students.length}
             >
-              <option value="">Select Student</option>
+              <option value="">اختار اسم الطالبة</option>
               {students.map((student, index) => (
                 <option key={index} value={student.Name}>
                   {student.Name}
@@ -146,7 +179,7 @@ export default function StudentEvaluationPage() {
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
             >
-              <option value="">Select Subject</option>
+              <option value="">اختار المادة</option>
               {subjects.map((subject, index) => (
                 <option key={index} value={subject}>
                   {subject}
@@ -155,8 +188,9 @@ export default function StudentEvaluationPage() {
             </select>
           </div>
 
+          {/* Evaluation Inputs */}
           <div className={styles.formGroup}>
-            <label>Weekly Evaluation</label>
+            <label>التقييم الأسبوعي 15%</label>
             <input
               type="number"
               value={evaluationData.WeeklyEvaluation}
@@ -170,7 +204,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label>Homework</label>
+            <label>كشكول الحصة والواجب 15%</label>
             <input
               type="number"
               value={evaluationData.Homework}
@@ -184,7 +218,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label>Behavior</label>
+            <label>السلوك والمواظبة 10%</label>
             <input
               type="number"
               value={evaluationData.Behavior}
@@ -198,7 +232,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label>Monthly Exams</label>
+            <label>درجة اختبار الشهرين 30%</label>
             <input
               type="number"
               value={evaluationData.MonthlyExams}
@@ -212,7 +246,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <button type="submit" className={styles.button}>
-            Save Evaluation
+            حفظ الدرجات
           </button>
         </form>
       </div>
