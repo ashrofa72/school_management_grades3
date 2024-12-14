@@ -46,7 +46,7 @@ export default function Students() {
         <Link href="/students/second-year/page">
           <section id="second-year" className={styles.gradeSection}>
             <h2>طلاب الصف الثاني</h2>
-            <Link href="/teachers/marksInsertion" legacyBehavior>
+            <Link href="/teachers/newform" legacyBehavior>
               <span>الذهاب الى نموذج إدخال الدرجات</span>
             </Link>
             <Image

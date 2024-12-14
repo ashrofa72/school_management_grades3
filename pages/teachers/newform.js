@@ -38,51 +38,38 @@ export default function StudentEvaluationPage() {
     return () => unsubscribe();
   }, []);
 
-  // Fetch classrooms and subjects after the user logs in
-  const fetchTeacherAssignments = async () => {
-    if (!user) return;
-
-    try {
-      const response = await fetch(`/api/studentsdata?email=${user.email}`, {
-        headers: {
-          'Cache-Control': 'no-cache', // Prevent caching
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Fetched teacher assignments:', data); // Log for debugging
-        setClassrooms(data.classrooms || []);
-        setSubjects(data.subjects || []);
-      } else {
-        console.error('Failed to fetch teacher assignments.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  // Fetch students when the selected classroom changes
+  // Fetch classrooms, subjects, and students based on the logged-in teacher
   useEffect(() => {
-    const fetchStudents = async () => {
-      if (!selectedClassroom) return;
+    console.log('Selected Classroom:', selectedClassroom);
+    const fetchTeacherAssignments = async () => {
+      if (!user) return;
 
       try {
         const response = await fetch(
-          `/api/studentsdata?classroom=${selectedClassroom}`
+          `/api/googleSheets?email=${user.email}&classroom=${selectedClassroom}`,
+          {
+            headers: {
+              'Cache-Control': 'no-cache',
+            },
+          }
         );
+
         if (response.ok) {
           const data = await response.json();
-          setStudents(data);
+          console.log('Fetched data:', data);
+          setClassrooms(data.classrooms || []);
+          setSubjects(data.subjects || []);
+          setStudents(data.students || []);
         } else {
-          console.error('Failed to load students.');
+          console.error('Failed to fetch data.');
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
 
-    fetchStudents();
-  }, [selectedClassroom]);
+    fetchTeacherAssignments();
+  }, [user, selectedClassroom]); // Dependency on selectedClassroom to refetch data
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -162,8 +149,8 @@ export default function StudentEvaluationPage() {
               <option value="">اختار اسم الطالبة</option>
               {students.length ? (
                 students.map((student, index) => (
-                  <option key={index} value={student.Name}>
-                    {student.Name}
+                  <option key={index} value={student[0]}>
+                    {student[0]} {/* Assuming the first element is the Name */}
                   </option>
                 ))
               ) : (
@@ -235,7 +222,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label>درجة اختبار الشهرين 30%</label>
+            <label>الاختبار الشهري 60%</label>
             <input
               type="number"
               value={evaluationData.MonthlyExams}
@@ -249,7 +236,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <button type="submit" className={styles.button}>
-            حفظ الدرجات
+            حفظ البيانات
           </button>
         </form>
       </div>
