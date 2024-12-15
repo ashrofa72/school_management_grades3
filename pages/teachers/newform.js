@@ -74,7 +74,6 @@ export default function StudentEvaluationPage() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!user) {
       alert('User is not logged in.');
       return;

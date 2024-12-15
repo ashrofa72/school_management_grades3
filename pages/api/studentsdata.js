@@ -1,29 +1,75 @@
-import { getSheetData } from '../../utils/sheets';
+import { google } from 'googleapis';
 
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     try {
-      const { email } = req.query;
+      // Extract form data from the request body
+      const {
+        displayName,
+        email,
+        classroom,
+        studentName,
+        subject,
+        evaluationData,
+      } = req.body;
 
-      // Validate query parameters
-      if (!email) {
-        return res.status(400).json({
-          error: 'Room, Subject, and Month parameters are required',
-        });
-      }
+      // Calculate the sum of evaluation entries
+      const { WeeklyEvaluation, Homework, Behavior, MonthlyExams } =
+        evaluationData;
+      const totalScore =
+        (parseFloat(WeeklyEvaluation) || 0) +
+        (parseFloat(Homework) || 0) +
+        (parseFloat(Behavior) || 0) +
+        (parseFloat(MonthlyExams) || 0);
 
-      // Fetch data from Google Sheets using the utils function
-      const data = await getSheetData(email);
+      // Authenticate with Google Sheets API
+      const auth = new google.auth.GoogleAuth({
+        credentials: {
+          client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
+          private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY.replace(
+            /\\n/g,
+            '\n'
+          ),
+        },
+        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+      });
 
-      res.status(200).json(data);
+      const sheets = google.sheets({ version: 'v4', auth });
+
+      // Spreadsheet ID and range to write data
+      const spreadsheetId = process.env.SPREADSHEET_ID;
+      const range = 'Student_Evaluation!A:F'; // Adjust to match your sheet structure
+
+      // Prepare the row data to append
+      const row = [
+        displayName,
+        email,
+        classroom,
+        studentName,
+        subject,
+        WeeklyEvaluation,
+        Homework,
+        Behavior,
+        MonthlyExams,
+        totalScore, // Include the total score
+      ];
+
+      // Append data to the sheet
+      await sheets.spreadsheets.values.append({
+        spreadsheetId,
+        range,
+        valueInputOption: 'USER_ENTERED',
+        resource: {
+          values: [row],
+        },
+      });
+
+      res.status(200).json({ message: 'Data saved successfully' });
     } catch (error) {
-      console.error('Error fetching Google Sheets data:', error);
-      res
-        .status(500)
-        .json({ error: error.message || 'Error fetching Google Sheets data' });
+      console.error('Error saving data to Google Sheets:', error);
+      res.status(500).json({ error: 'Error saving data to Google Sheets' });
     }
   } else {
-    // Handle unsupported HTTP methods
     res.status(405).json({ error: 'Method not allowed' });
   }
 }
