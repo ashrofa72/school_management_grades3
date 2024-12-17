@@ -6,6 +6,12 @@
   width: 100dvw;
   color: white;
 }
+.container h6 {
+  font-size: 30px;
+}
+.container h7 {
+  font-size: 25px;
+}
 
 .main {
   min-height: 100vh;

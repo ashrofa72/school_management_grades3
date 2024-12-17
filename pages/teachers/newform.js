@@ -221,7 +221,7 @@ export default function StudentEvaluationPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label>الاختبار الشهري 60%</label>
+            <label>الاختبار الشهري 30%</label>
             <input
               type="number"
               value={evaluationData.MonthlyExams}

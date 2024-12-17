@@ -10,8 +10,8 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h5 className={styles.title}> مدرسة فاطمة الزهراء الثانوية للبنات </h5>
-        <h6 className={styles.title}>أقسام نظام المعلومات المدرسية</h6>
+        <h6 className={styles.title}> مدرسة فاطمة الزهراء الثانوية للبنات </h6>
+        <h7 className={styles.title}>أقسام نظام المعلومات المدرسية</h7>
         <div className={styles.grid}>
           <a onClick={() => router.push('/teachers')} className={styles.card}>
             <h2>المعلمون &rarr;</h2>

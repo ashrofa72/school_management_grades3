@@ -26,6 +26,7 @@
 .reportContainer h3 {
   font-size: 18px;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .fieldRow {
@@ -49,6 +50,7 @@
 }
 .tableSection h3 {
   text-align: center;
+  text-decoration: underline;
 }
 
 .reportTable {
@@ -67,6 +69,7 @@
 .reportTable th {
   font-weight: bold;
   background-color: #f4f4f4;
+  direction: rtl;
 }
 
 .footer {
@@ -82,4 +85,10 @@
 }
 .leaveDetails h3 {
   text-align: center;
+}
+
+@media print {
+  .hideOnPrint {
+    display: none;
+  }
 }

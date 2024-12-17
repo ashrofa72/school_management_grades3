@@ -17,7 +17,7 @@ export default function Students() {
 
         {/* Header Section */}
         <section className={styles.header}>
-          <h1>طلاب المدرسة</h1>
+          <h1>معلمين المدرسة</h1>
         </section>
 
         {/* First Year Grade Section */}
