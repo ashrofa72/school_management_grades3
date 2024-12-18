@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Marhey:wght@300..700&display=swap');
+
 .reportContainer {
   font-family: 'Arial', sans-serif;
   direction: rtl;
   text-align: right;
-  width: 800px;
+  width: 850px;
   margin: 20px auto;
   border: 2px solid black;
   padding: 20px;
   background-color: white;
+  color: black;
 }
 
 .header {
@@ -31,18 +34,24 @@
 
 .fieldRow {
   display: flex;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+
+  text-justify: auto;
+  gap: 15px;
 }
 
 .fieldRow span {
-  margin-right: 10px;
+  margin-right: 20px;
   font-weight: bold;
+  padding-bottom: 10px;
 }
 
 .underline {
-  flex: 1;
-  border-bottom: 1px dotted black;
-  height: 10px;
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  width: 100px; /* Adjust width as needed */
 }
 
 .tableSection {
@@ -86,9 +95,47 @@
 .leaveDetails h3 {
   text-align: center;
 }
+.select {
+  font-family: Marhey, sans-serif;
+  font-size: 15px;
+}
+.select span {
+  font-family: Marhey, sans-serif;
+}
+/* Date Picker Styles */
+.input[type='date'] {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  font-size: 10px;
+  color: black;
+  font-family: Marhey, sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+  margin: 0 0 10px 0;
+}
+
+/* Change border color on focus */
+.input[type='date']:focus {
+  border-color: #007bff;
+}
 
 @media print {
-  .hideOnPrint {
-    display: none;
+  .body {
+    margin: 0;
+    padding: 0;
+  }
+  .body h2,
+  .body h3 {
+    text-align: center;
+  }
+  .reportContainer {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .button {
+    display: none; /* Hide buttons when printing */
   }
 }

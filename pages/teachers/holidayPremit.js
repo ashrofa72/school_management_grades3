@@ -1,5 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styles from '../../styles/holidayPremit.module.css';
+import DatePicker from 'react-datepicker';
+import { useReactToPrint } from 'react-to-print';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import Navbar from '../../components/navbar';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -8,6 +12,80 @@ import { useRouter } from 'next/router';
 export default function Report() {
   const reportRef = useRef();
   const router = useRouter();
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [releaseDate, setReleaseDate] = useState('');
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState({
+    Name: '',
+    Position: '',
+    Level: '',
+    Birth_Date: '',
+    Appointment_Date: '',
+    Starting_Date: '',
+    Address: '',
+    Phone: '',
+  });
+
+  useEffect(() => {
+    async function fetchEmployees() {
+      const response = await fetch('/api/employees');
+      const data = await response.json();
+      setEmployees(data);
+    }
+    fetchEmployees();
+  }, []);
+
+  const handleEmployeeChange = (e) => {
+    const selected = employees.find((emp) => emp.Name === e.target.value);
+    setSelectedEmployee(
+      selected || {
+        Name: '',
+        Position: '',
+        Birth_Date: '',
+        Appointment_Date: '',
+        Starting_Date: '',
+        Address: '',
+        Phone: '',
+      }
+    );
+  };
+  // Step 2: Function to print using window.print()
+  const handlePrint = () => {
+    // Get the content from the ref
+    const reportContent = reportRef.current.innerHTML;
+
+    // Open a new window
+    const printWindow = window.open('', '_blank');
+
+    // Write the content to the new window
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Report</title>
+          <style>
+            /* Optional: Add styles for printing */
+            body { font-family: Arial, sans-serif; direction: rtl; margin: 20px; }
+            h2, h3 { text-align: center; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            th, td { border: 1px solid black; padding: 8px; text-align: center; }
+            .underline { border-bottom: 1px solid black; display: inline-block; width: 150px; }
+          </style>
+        </head>
+        <body>
+          ${reportContent}
+          <script>
+            window.onload = function() {
+              window.print();
+              window.close();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close(); // Close the document stream
+  };
 
   const handleDownloadPDF = () => {
     const input = reportRef.current;
@@ -24,6 +102,10 @@ export default function Report() {
     });
   };
 
+  const handleEmployeeSelect = (event) => {
+    const employee = employees.find((emp) => emp.Name === event.target.value);
+    setSelectedEmployee(employee);
+  };
   return (
     <div>
       <Navbar />
@@ -49,25 +131,46 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>الاسم:</span>
-            <span className={styles.underline}></span>
+            <select className={styles.select} onChange={handleEmployeeSelect}>
+              <option value="">اختر اسم الموظف</option>
+              {employees.map((emp) => (
+                <option key={emp.Name} value={emp.Name}>
+                  {emp.Name}
+                </option>
+              ))}
+            </select>
             <span>الوظيفة:</span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Position || '---'}
+            </span>
             <span>المستوى الوظيفي:</span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Level || '---'}
+            </span>
           </div>
           <div className={styles.fieldRow}>
             <span>تاريخ الميلاد:</span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Birth_Date || '---'}
+            </span>
             <span>تاريخ التعيين:</span>
-            <span className={styles.underline}></span>
-            <span>تاريخ استلام العمل:</span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Appointment_Date || '---'}
+            </span>
+            <span>تاريخ الأستلام:</span>
+            <span className={styles.select}>
+              {selectedEmployee.Starting_Date || '---'}
+            </span>
           </div>
           <div className={styles.fieldRow}>
             <span>العنوان اثناء الاجارة</span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Address || '---'}
+            </span>
             <span> هاتف</span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Phone || '---'}
+            </span>
           </div>
         </section>
 
@@ -167,7 +270,14 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
-            <span className={styles.underline}></span>
+            <select className={styles.select} onChange={handleEmployeeSelect}>
+              <option value="">اختر اسم الموظف</option>
+              {employees.map((emp) => (
+                <option key={emp.Name} value={emp.Name}>
+                  {emp.Name}
+                </option>
+              ))}
+            </select>
             <span>بأنني أديت أعمالي الوظيفية حتى يوم </span>
             <span className={styles.underline}></span>
             <span>الموافق</span>
@@ -198,9 +308,18 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
-            <span className={styles.underline}></span>
+            <select className={styles.select} onChange={handleEmployeeSelect}>
+              <option value="">اختر اسم الموظف</option>
+              {employees.map((emp) => (
+                <option key={emp.Name} value={emp.Name}>
+                  {emp.Name}
+                </option>
+              ))}
+            </select>
             <span> وأعمل بوظيفة </span>
-            <span className={styles.underline}></span>
+            <span className={styles.select}>
+              {selectedEmployee.Position || '---'}
+            </span>
           </div>
           <div className={styles.fieldRow}>
             <span>انني استأنفت العمل في يوم</span>
@@ -234,6 +353,7 @@ export default function Report() {
       {/* Print Button */}
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <button
+          //onClick={handleDownloadPDF}
           onClick={handleDownloadPDF}
           style={{
             backgroundColor: '#008CBA',
@@ -244,7 +364,7 @@ export default function Report() {
             cursor: 'pointer',
           }}
         >
-          Download as PDF
+          طباعة طلب الأجازة
         </button>
       </div>
     </div>
