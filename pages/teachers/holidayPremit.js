@@ -3,6 +3,7 @@ import styles from '../../styles/holidayPremit.module.css';
 import DatePicker from 'react-datepicker';
 import { useReactToPrint } from 'react-to-print';
 import 'react-datepicker/dist/react-datepicker.css';
+import domToPdf from 'dom-to-pdf';
 
 import Navbar from '../../components/navbar';
 import { jsPDF } from 'jspdf';
@@ -10,7 +11,7 @@ import html2canvas from 'html2canvas';
 import { useRouter } from 'next/router';
 
 export default function Report() {
-  const reportRef = useRef();
+  //const reportRef = useRef();
   const router = useRouter();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -32,6 +33,11 @@ export default function Report() {
       const response = await fetch('/api/employees');
       const data = await response.json();
       setEmployees(data);
+
+      // Set the first employee as the default selected employee
+      if (data.length > 0) {
+        setSelectedEmployee(data[0]);
+      }
     }
     fetchEmployees();
   }, []);
@@ -50,62 +56,82 @@ export default function Report() {
       }
     );
   };
-  // Step 2: Function to print using window.print()
-  const handlePrint = () => {
-    // Get the content from the ref
-    const reportContent = reportRef.current.innerHTML;
 
-    // Open a new window
-    const printWindow = window.open('', '_blank');
-
-    // Write the content to the new window
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Report</title>
-          <style>
-            /* Optional: Add styles for printing */
-            body { font-family: Arial, sans-serif; direction: rtl; margin: 20px; }
-            h2, h3 { text-align: center; }
-            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-            th, td { border: 1px solid black; padding: 8px; text-align: center; }
-            .underline { border-bottom: 1px solid black; display: inline-block; width: 150px; }
-          </style>
-        </head>
-        <body>
-          ${reportContent}
-          <script>
-            window.onload = function() {
-              window.print();
-              window.close();
-            };
-          </script>
-        </body>
-      </html>
-    `);
-
-    printWindow.document.close(); // Close the document stream
-  };
+  const reportRef = useRef(null);
 
   const handleDownloadPDF = () => {
     const input = reportRef.current;
 
-    // Capture the content and generate the PDF
-    html2canvas(input).then((canvas) => {
+    if (!input) {
+      console.error('Report content not found.');
+      return;
+    }
+
+    // Replace <select> elements with their selected values
+    const selectElements = input.querySelectorAll('select');
+    const dateElements = input.querySelectorAll('input[type="date"]');
+    const originalContent = [];
+
+    // Replace <select> with <span>
+    selectElements.forEach((select) => {
+      const selectedValue = select.options[select.selectedIndex]?.text || '';
+      const span = document.createElement('span');
+      span.textContent = selectedValue;
+      span.style.fontSize = window.getComputedStyle(select).fontSize; // Match font size
+      span.style.fontFamily = window.getComputedStyle(select).fontFamily; // Match font family
+      originalContent.push({
+        element: select,
+        parent: select.parentNode,
+        span,
+      });
+      select.parentNode.replaceChild(span, select);
+    });
+
+    // Replace <input type="date"> with <span>
+    dateElements.forEach((dateInput) => {
+      const dateValue = dateInput.value || ''; // Get the date value
+      const span = document.createElement('span');
+      span.textContent = dateValue;
+      span.style.fontSize = window.getComputedStyle(dateInput).fontSize; // Match font size
+      span.style.fontFamily = window.getComputedStyle(dateInput).fontFamily; // Match font family
+      originalContent.push({
+        element: dateInput,
+        parent: dateInput.parentNode,
+        span,
+      });
+      dateInput.parentNode.replaceChild(span, dateInput);
+    });
+
+    // Generate the PDF
+    html2canvas(input, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4 size
-      const pdfWidth = 210;
-      const pdfHeight = 297;
 
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdfWidth = pdf.internal.pageSize.getWidth(); // 210 mm for A4
+      const pdfHeight = pdf.internal.pageSize.getHeight(); // 297 mm for A4
+
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+
+      // Scale the canvas image to fit within the PDF dimensions
+      const scale = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
+      const imgWidth = canvasWidth * scale;
+      const imgHeight = canvasHeight * scale;
+
+      // Calculate margins to center the image
+      const xOffset = (pdfWidth - imgWidth) / 2; // Center horizontally
+      const yOffset = (pdfHeight - imgHeight) / 2; // Center vertically
+
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
       pdf.save('طلب اجازة اعتيادي.pdf');
+
+      // Restore the original elements
+      originalContent.forEach(({ element, parent, span }) => {
+        parent.replaceChild(element, span);
+      });
     });
   };
 
-  const handleEmployeeSelect = (event) => {
-    const employee = employees.find((emp) => emp.Name === event.target.value);
-    setSelectedEmployee(employee);
-  };
   return (
     <div>
       <Navbar />
@@ -131,14 +157,9 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>الاسم:</span>
-            <select className={styles.select} onChange={handleEmployeeSelect}>
-              <option value="">اختر اسم الموظف</option>
-              {employees.map((emp) => (
-                <option key={emp.Name} value={emp.Name}>
-                  {emp.Name}
-                </option>
-              ))}
-            </select>
+            <span className={styles.select}>
+              {selectedEmployee.Name || '---'}
+            </span>
             <span>الوظيفة:</span>
             <span className={styles.select}>
               {selectedEmployee.Position || '---'}
@@ -180,20 +201,28 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>عدد الأيام</span>
-            <span className={styles.underline}></span>
+            <select className={styles.select}>
+              <option>يوم واحد</option>
+              <option>يومان </option>
+              <option>ثلاثة أيام </option>
+              <option>أربعة أيام </option>
+              <option>خمسة أيام </option>
+              <option>ستة أيام </option>
+            </select>
+
             <span>من:</span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
             <span>إلى:</span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
             <span>تحريرا في</span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
           </div>
           <div className={styles.fieldRow}>
             <span> توقيع طالب الأجازة</span>
             <span className={styles.underline}></span>
           </div>
           <div className={styles.fieldRow}>
-            <span>اسم الموظف القائم بالعمل خلال الأجازة </span>
+            <span>اسم الموظف القائم بالعمل خلال الأجازة</span>
             <span className={styles.underline}></span>
             <span>التوقيع</span>
             <span className={styles.underline}></span>
@@ -270,18 +299,20 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
-            <select className={styles.select} onChange={handleEmployeeSelect}>
-              <option value="">اختر اسم الموظف</option>
-              {employees.map((emp) => (
-                <option key={emp.Name} value={emp.Name}>
-                  {emp.Name}
-                </option>
-              ))}
-            </select>
+            <span className={styles.select}>
+              {selectedEmployee.Name || '---'}
+            </span>
             <span>بأنني أديت أعمالي الوظيفية حتى يوم </span>
-            <span className={styles.underline}></span>
+            <select className={styles.select}>
+              <option> السبت</option>
+              <option> الأحد</option>
+              <option> الأثنين </option>
+              <option> الثلاثاء </option>
+              <option> الأربعاء </option>
+              <option> الخميس </option>
+            </select>
             <span>الموافق</span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
           </div>
           <div className={styles.fieldRow}>
             <span>
@@ -292,7 +323,9 @@ export default function Report() {
             <h3>القائم بالاجازة الإعتيادية</h3>
             <div className={styles.fieldRow}>
               <span>الأسم</span>
-              <span className={styles.underline}></span>
+              <span className={styles.select}>
+                {selectedEmployee.Name || '---'}
+              </span>
               <span>الرئيس المباشر</span>
               <span className={styles.underline}></span>
             </div>
@@ -308,14 +341,9 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
-            <select className={styles.select} onChange={handleEmployeeSelect}>
-              <option value="">اختر اسم الموظف</option>
-              {employees.map((emp) => (
-                <option key={emp.Name} value={emp.Name}>
-                  {emp.Name}
-                </option>
-              ))}
-            </select>
+            <span className={styles.select}>
+              {selectedEmployee.Name || '---'}
+            </span>
             <span> وأعمل بوظيفة </span>
             <span className={styles.select}>
               {selectedEmployee.Position || '---'}
@@ -323,9 +351,16 @@ export default function Report() {
           </div>
           <div className={styles.fieldRow}>
             <span>انني استأنفت العمل في يوم</span>
-            <span className={styles.underline}></span>
+            <select className={styles.select}>
+              <option> السبت</option>
+              <option> الأحد</option>
+              <option> الأثنين </option>
+              <option> الثلاثاء </option>
+              <option> الأربعاء </option>
+              <option> الخميس </option>
+            </select>
             <span>الموافق </span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
             <span>وهو اليوم الأول من ايام العمل الرسمية </span>
           </div>
           <div className={styles.fieldRow}>
@@ -333,9 +368,9 @@ export default function Report() {
               {' '}
               بعد الإنتهاء من الأجازة الإعتيادية المرخص لي بها والتي بدأت في{' '}
             </span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
             <span>وانتهت في </span>
-            <span className={styles.underline}></span>
+            <input type="date" className={styles.input} />
           </div>
           <div className={styles.tableSection}>
             <h3>وهذا إقرار مني بذلك</h3>

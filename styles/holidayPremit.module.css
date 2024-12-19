@@ -39,7 +39,7 @@
   justify-items: center;
 
   text-justify: auto;
-  gap: 15px;
+  gap: 10px;
 }
 
 .fieldRow span {
@@ -96,18 +96,11 @@
   text-align: center;
 }
 .select {
-  font-family: Marhey, sans-serif;
-  font-size: 15px;
-}
-.select span {
-  font-family: Marhey, sans-serif;
-}
-/* Date Picker Styles */
-.input[type='date'] {
-  width: 100%;
+  width: 130px;
   height: 40px;
   padding: 10px;
   font-size: 10px;
+  font-weight: bold;
   color: black;
   font-family: Marhey, sans-serif;
   border: 1px solid #ccc;
@@ -115,6 +108,28 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   outline: none;
   margin: 0 0 10px 0;
+  text-align: center;
+}
+
+/* Date Picker Styles */
+.input[type='date'] {
+  width: 150px;
+  height: 40px;
+  padding: 10px;
+  font-size: 10px;
+  font-weight: bold;
+  color: black;
+  font-family: Marhey, sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+.input[type='text'] {
+  position: relative;
+  top: -10px;
 }
 
 /* Change border color on focus */
