@@ -37,9 +37,8 @@
   justify-content: space-between;
   align-items: center;
   justify-items: center;
-
   text-justify: auto;
-  gap: 10px;
+  gap: 5px;
 }
 
 .fieldRow span {
@@ -96,7 +95,7 @@
   text-align: center;
 }
 .select {
-  width: 130px;
+  width: 140px;
   height: 40px;
   padding: 10px;
   font-size: 10px;
@@ -113,7 +112,7 @@
 
 /* Date Picker Styles */
 .input[type='date'] {
-  width: 150px;
+  width: 140px;
   height: 40px;
   padding: 10px;
   font-size: 10px;
@@ -126,6 +125,7 @@
   outline: none;
   margin: 0 0 10px 0;
   text-align: center;
+  background-color: white;
 }
 .input[type='text'] {
   position: relative;

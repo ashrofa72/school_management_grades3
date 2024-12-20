@@ -1,134 +1,120 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styles from '../../styles/holidayPremit.module.css';
 import DatePicker from 'react-datepicker';
-import { useReactToPrint } from 'react-to-print';
 import 'react-datepicker/dist/react-datepicker.css';
-import domToPdf from 'dom-to-pdf';
-
-import Navbar from '../../components/navbar';
+import { getAuth } from 'firebase/auth';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import Navbar from '../../components/navbar';
 import { useRouter } from 'next/router';
 
-export default function Report() {
-  //const reportRef = useRef();
+export default function Report({ email }) {
   const router = useRouter();
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [releaseDate, setReleaseDate] = useState('');
-  const [employees, setEmployees] = useState([]);
+  const reportRef = useRef(null);
+
+  const [userEmail, setUserEmail] = useState('');
   const [selectedEmployee, setSelectedEmployee] = useState({
-    Name: '',
-    Position: '',
-    Level: '',
-    Birth_Date: '',
-    Appointment_Date: '',
-    Starting_Date: '',
-    Address: '',
-    Phone: '',
+    name: '',
+    position: '',
+    level: '',
+    birth_date: '',
+    appointment_date: '',
+    starting_date: '',
+    address: '',
+    phone: '',
   });
 
   useEffect(() => {
-    async function fetchEmployees() {
-      const response = await fetch('/api/employees');
-      const data = await response.json();
-      setEmployees(data);
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-      // Set the first employee as the default selected employee
-      if (data.length > 0) {
-        setSelectedEmployee(data[0]);
-      }
+    if (user) {
+      setUserEmail(user.email);
+      fetchEmployeeData(user.email);
     }
-    fetchEmployees();
   }, []);
 
-  const handleEmployeeChange = (e) => {
-    const selected = employees.find((emp) => emp.Name === e.target.value);
-    setSelectedEmployee(
-      selected || {
-        Name: '',
-        Position: '',
-        Birth_Date: '',
-        Appointment_Date: '',
-        Starting_Date: '',
-        Address: '',
-        Phone: '',
+  const fetchEmployeeData = async (email) => {
+    try {
+      const response = await fetch(
+        `/api/employees?email=${encodeURIComponent(email)}`
+      );
+      const data = await response.json();
+
+      if (data.error) {
+        console.error('Error fetching employee data:', data.error);
+      } else {
+        setSelectedEmployee(data[0] || {}); // Assuming the data is an array
       }
-    );
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
   };
 
-  const reportRef = useRef(null);
+  // useEffect to fetch data when email changes
+  useEffect(() => {
+    if (email) {
+      fetchEmployeeData(email); // Call the function when email is available
+    }
+  }, [email]); // Dependency array to re-run effect when email changes
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     const input = reportRef.current;
-
     if (!input) {
       console.error('Report content not found.');
       return;
     }
 
-    // Replace <select> elements with their selected values
-    const selectElements = input.querySelectorAll('select');
-    const dateElements = input.querySelectorAll('input[type="date"]');
-    const originalContent = [];
-
-    // Replace <select> with <span>
-    selectElements.forEach((select) => {
-      const selectedValue = select.options[select.selectedIndex]?.text || '';
-      const span = document.createElement('span');
-      span.textContent = selectedValue;
-      span.style.fontSize = window.getComputedStyle(select).fontSize; // Match font size
-      span.style.fontFamily = window.getComputedStyle(select).fontFamily; // Match font family
-      originalContent.push({
-        element: select,
-        parent: select.parentNode,
-        span,
-      });
-      select.parentNode.replaceChild(span, select);
-    });
-
-    // Replace <input type="date"> with <span>
-    dateElements.forEach((dateInput) => {
-      const dateValue = dateInput.value || ''; // Get the date value
-      const span = document.createElement('span');
-      span.textContent = dateValue;
-      span.style.fontSize = window.getComputedStyle(dateInput).fontSize; // Match font size
-      span.style.fontFamily = window.getComputedStyle(dateInput).fontFamily; // Match font family
-      originalContent.push({
-        element: dateInput,
-        parent: dateInput.parentNode,
-        span,
-      });
-      dateInput.parentNode.replaceChild(span, dateInput);
-    });
+    // Replace <select> and <input type="date"> elements with their display values
+    const originalElements = replaceDynamicElements(input);
 
     // Generate the PDF
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4 size
+    try {
+      const canvas = await html2canvas(input, { scale: 2 });
+      const pdf = new jsPDF('p', 'mm', 'a4');
 
-      const pdfWidth = pdf.internal.pageSize.getWidth(); // 210 mm for A4
-      const pdfHeight = pdf.internal.pageSize.getHeight(); // 297 mm for A4
+      const imgData = canvas.toDataURL('image/png');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-
-      // Scale the canvas image to fit within the PDF dimensions
       const scale = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
       const imgWidth = canvasWidth * scale;
       const imgHeight = canvasHeight * scale;
 
-      // Calculate margins to center the image
-      const xOffset = (pdfWidth - imgWidth) / 2; // Center horizontally
-      const yOffset = (pdfHeight - imgHeight) / 2; // Center vertically
+      const xOffset = (pdfWidth - imgWidth) / 2;
+      const yOffset = (pdfHeight - imgHeight) / 2;
 
       pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
-      pdf.save('طلب اجازة اعتيادي.pdf');
+      pdf.save('Holiday_Permit_Request.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      restoreDynamicElements(originalElements);
+    }
+  };
 
-      // Restore the original elements
-      originalContent.forEach(({ element, parent, span }) => {
-        parent.replaceChild(element, span);
-      });
+  const replaceDynamicElements = (container) => {
+    const originalElements = [];
+    const selectors = container.querySelectorAll('select, input[type="date"]');
+
+    selectors.forEach((element) => {
+      const span = document.createElement('span');
+      span.textContent =
+        element.value || element.options[element.selectedIndex]?.text || '---';
+      span.style.cssText = window.getComputedStyle(element).cssText;
+
+      originalElements.push({ element, parent: element.parentNode, span });
+      element.parentNode.replaceChild(span, element);
+    });
+
+    return originalElements;
+  };
+
+  const restoreDynamicElements = (originalElements) => {
+    originalElements.forEach(({ element, parent, span }) => {
+      parent.replaceChild(element, span);
     });
   };
 
@@ -158,39 +144,39 @@ export default function Report() {
           <div className={styles.fieldRow}>
             <span>الاسم:</span>
             <span className={styles.select}>
-              {selectedEmployee.Name || '---'}
+              {selectedEmployee.name || '---'}
             </span>
             <span>الوظيفة:</span>
             <span className={styles.select}>
-              {selectedEmployee.Position || '---'}
+              {selectedEmployee.position || '---'}
             </span>
             <span>المستوى الوظيفي:</span>
             <span className={styles.select}>
-              {selectedEmployee.Level || '---'}
+              {selectedEmployee.level || '---'}
             </span>
           </div>
           <div className={styles.fieldRow}>
             <span>تاريخ الميلاد:</span>
             <span className={styles.select}>
-              {selectedEmployee.Birth_Date || '---'}
+              {selectedEmployee.birth_date || '---'}
             </span>
             <span>تاريخ التعيين:</span>
             <span className={styles.select}>
-              {selectedEmployee.Appointment_Date || '---'}
+              {selectedEmployee.appointment_date || '---'}
             </span>
             <span>تاريخ الأستلام:</span>
             <span className={styles.select}>
-              {selectedEmployee.Starting_Date || '---'}
+              {selectedEmployee.starting_date || '---'}
             </span>
           </div>
           <div className={styles.fieldRow}>
             <span>العنوان اثناء الاجارة</span>
             <span className={styles.select}>
-              {selectedEmployee.Address || '---'}
+              {selectedEmployee.address || '---'}
             </span>
             <span> هاتف</span>
             <span className={styles.select}>
-              {selectedEmployee.Phone || '---'}
+              {selectedEmployee.phone || '---'}
             </span>
           </div>
         </section>
@@ -300,7 +286,7 @@ export default function Report() {
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
             <span className={styles.select}>
-              {selectedEmployee.Name || '---'}
+              {selectedEmployee.name || '---'}
             </span>
             <span>بأنني أديت أعمالي الوظيفية حتى يوم </span>
             <select className={styles.select}>
@@ -324,7 +310,7 @@ export default function Report() {
             <div className={styles.fieldRow}>
               <span>الأسم</span>
               <span className={styles.select}>
-                {selectedEmployee.Name || '---'}
+                {selectedEmployee.name || '---'}
               </span>
               <span>الرئيس المباشر</span>
               <span className={styles.underline}></span>
@@ -342,11 +328,11 @@ export default function Report() {
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
             <span className={styles.select}>
-              {selectedEmployee.Name || '---'}
+              {selectedEmployee.name || '---'}
             </span>
             <span> وأعمل بوظيفة </span>
             <span className={styles.select}>
-              {selectedEmployee.Position || '---'}
+              {selectedEmployee.position || '---'}
             </span>
           </div>
           <div className={styles.fieldRow}>
