@@ -10,6 +10,27 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
+        {/* Add image with a link to Facebook on the left */}
+        {/*<div className={styles.imageContainer}>
+          <a
+            href="https://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/images/undraw_social-notifications_mzoe.png"
+              alt="Educator Illustration"
+              className={styles.imageContainer}
+            />
+          </a>
+        </div>
+        {/* Add image at the top of the page */}
+        <img
+          src="/images/undraw_online-test_20lm.png"
+          alt="Educator Illustration"
+          className={styles.image}
+        />
+
         <h6 className={styles.title}> مدرسة فاطمة الزهراء الثانوية للبنات </h6>
         <h7 className={styles.title}>أقسام نظام المعلومات المدرسية</h7>
         <div className={styles.grid}>

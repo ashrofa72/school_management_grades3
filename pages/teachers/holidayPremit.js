@@ -143,39 +143,39 @@ export default function Report({ email }) {
           </div>
           <div className={styles.fieldRow}>
             <span>الاسم:</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.name || '---'}
             </span>
             <span>الوظيفة:</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.position || '---'}
             </span>
             <span>المستوى الوظيفي:</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.level || '---'}
             </span>
           </div>
           <div className={styles.fieldRow}>
             <span>تاريخ الميلاد:</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.birth_date || '---'}
             </span>
             <span>تاريخ التعيين:</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.appointment_date || '---'}
             </span>
             <span>تاريخ الأستلام:</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.starting_date || '---'}
             </span>
           </div>
           <div className={styles.fieldRow}>
             <span>العنوان اثناء الاجارة</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.address || '---'}
             </span>
             <span> هاتف</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.phone || '---'}
             </span>
           </div>
@@ -285,7 +285,7 @@ export default function Report({ email }) {
           </div>
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.name || '---'}
             </span>
             <span>بأنني أديت أعمالي الوظيفية حتى يوم </span>
@@ -309,7 +309,7 @@ export default function Report({ email }) {
             <h3>القائم بالاجازة الإعتيادية</h3>
             <div className={styles.fieldRow}>
               <span>الأسم</span>
-              <span className={styles.select}>
+              <span className={styles.select['.span']}>
                 {selectedEmployee.name || '---'}
               </span>
               <span>الرئيس المباشر</span>
@@ -327,11 +327,11 @@ export default function Report({ email }) {
           </div>
           <div className={styles.fieldRow}>
             <span>اقر أنا/</span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.name || '---'}
             </span>
             <span> وأعمل بوظيفة </span>
-            <span className={styles.select}>
+            <span className={styles.select['.span']}>
               {selectedEmployee.position || '---'}
             </span>
           </div>

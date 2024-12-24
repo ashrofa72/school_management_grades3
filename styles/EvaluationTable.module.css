@@ -1,0 +1,57 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.container h1,
+.container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.container p {
+  color: #555;
+  margin-top: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+/* Custom alignment for the specific headers */
+.alignLeft {
+  text-align: left;
+  padding-left: 20px;
+}
+.alignRight {
+  text-align: right;
+  padding-right: 20px;
+} /* Adjust the padding as needed */

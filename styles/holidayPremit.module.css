@@ -4,7 +4,7 @@
   font-family: 'Arial', sans-serif;
   direction: rtl;
   text-align: right;
-  width: 850px;
+  width: 1000px;
   margin: 20px auto;
   border: 2px solid black;
   padding: 20px;
@@ -22,12 +22,12 @@
 }
 
 .reportContainer h2 {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
 }
 
 .reportContainer h3 {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 10px;
   font-weight: bold;
 }
@@ -45,6 +45,7 @@
   margin-right: 20px;
   font-weight: bold;
   padding-bottom: 10px;
+  font-size: 20px;
 }
 
 .underline {
@@ -59,6 +60,7 @@
 .tableSection h3 {
   text-align: center;
   text-decoration: underline;
+  font-size: 20px;
 }
 
 .reportTable {
@@ -95,10 +97,10 @@
   text-align: center;
 }
 .select {
-  width: 140px;
+  width: 180px;
   height: 40px;
-  padding: 10px;
-  font-size: 10px;
+  padding: 5px;
+  font-size: 14px;
   font-weight: bold;
   color: black;
   font-family: Marhey, sans-serif;
@@ -109,13 +111,23 @@
   margin: 0 0 10px 0;
   text-align: center;
 }
+.select span {
+  font-size: 10px;
+  font-weight: bold;
+  font-family: Marhey, sans-serif;
+}
+.select option {
+  font-size: 15px;
+  font-weight: bold;
+  font-family: Marhey, sans-serif;
+}
 
 /* Date Picker Styles */
 .input[type='date'] {
   width: 140px;
   height: 40px;
   padding: 10px;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: bold;
   color: black;
   font-family: Marhey, sans-serif;
