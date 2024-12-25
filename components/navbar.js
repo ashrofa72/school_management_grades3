@@ -21,7 +21,9 @@ const Navbar = () => {
             </a>
           </li>
         )}
-
+        <li>
+          <Link href="/teachers/dashboard3"> لوحة التحكم </Link>
+        </li>
         <li>
           <Link href="/students/third-year/page">الصف الثالث </Link>
         </li>
