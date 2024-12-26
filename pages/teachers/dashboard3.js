@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/navbar';
 import {
   Chart as ChartJS,
@@ -96,15 +97,27 @@ const Dashboard = () => {
               alt="Profile"
               className={styles.profilePic}
             />
-            <h2>Victoria Doe</h2>
+            <h2>Prog/ Ashraf Kamel</h2>
           </div>
           <ul className={styles.menu}>
-            <li>Home</li>
-            <li>Shipments</li>
-            <li>Calendar</li>
-            <li>Messages</li>
-            <li>Statistics</li>
-            <li>Payments</li>
+            <li>
+              <Link href="/home">Home</Link>
+            </li>
+            <li>
+              <Link href="/students/page">Classrooms</Link>
+            </li>
+            <li>
+              <Link href="/students/first-year/page">Frst Classrooms</Link>
+            </li>
+            <li>
+              <Link href="/students/second-year/page">Second Classrooms</Link>
+            </li>
+            <li>
+              <Link href="/students/third-year/page">Third Classrooms</Link>
+            </li>
+            <li>
+              <Link href="pages/teachers/index/">Teachers </Link>
+            </li>
           </ul>
           <div className={styles.promo}>
             <img
