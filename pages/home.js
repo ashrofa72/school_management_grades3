@@ -35,7 +35,7 @@ const Home = () => {
         <h7 className={styles.title}>أقسام نظام المعلومات المدرسية</h7>
         <div className={styles.grid}>
           <a onClick={() => router.push('/teachers')} className={styles.card}>
-            <h2>المعلمون &rarr;</h2>
+            <h2> &rarr; المعلمون </h2>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
           <a
@@ -43,7 +43,7 @@ const Home = () => {
             rel="noopener noreferrer"
             className={styles.card}
           >
-            <h2>اعلانات المدرسة &rarr;</h2>
+            <h2> &rarr; اعلانات </h2>
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
@@ -53,7 +53,7 @@ const Home = () => {
             rel="noopener noreferrer"
             className={styles.card}
           >
-            <h2>الطلاب &rarr;</h2>
+            <h2> &rarr; الطلاب </h2>
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
@@ -62,7 +62,7 @@ const Home = () => {
             onClick={() => router.push('/teachers/dashboard3')}
             className={styles.card}
           >
-            <h2> لوحة التحكم &rarr;</h2>
+            <h2> &rarr; الرئيسية</h2>
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>

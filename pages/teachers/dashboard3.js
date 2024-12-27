@@ -116,7 +116,7 @@ const Dashboard = () => {
               <Link href="/students/third-year/page">Third Classrooms</Link>
             </li>
             <li>
-              <Link href="pages/teachers/index/">Teachers </Link>
+              <Link href="/teachers">Teachers </Link>
             </li>
           </ul>
           <div className={styles.promo}>
