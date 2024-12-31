@@ -52,6 +52,9 @@ export default function Students() {
             <Link href="/teachers/holidayPremit" legacyBehavior>
               <span> طلب اجازة اعتيادية</span>
             </Link>
+            <Link href="/teachers/review" legacyBehavior>
+              <span> نموذج تقييم الخدمة </span>
+            </Link>
             <Image
               className={styles.info}
               src="/images/second.jpg"
