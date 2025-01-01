@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/navbar';
+import ReviewPage from '@/components/reviewComponent';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -142,9 +143,8 @@ const Dashboard = () => {
               <h3>Completed Task</h3>
               <Doughnut data={completedTaskData} />
             </div>
-            <div className={styles.card}>
-              <h3>My Productivity</h3>
-              <Line data={productivityData} />
+            <div>
+              <ReviewPage />
             </div>
             <div className={styles.card}>
               <h3>Skills Success</h3>

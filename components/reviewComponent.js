@@ -1,7 +1,6 @@
 // pages/review.js
 import { useState } from 'react';
 import ReactStars from 'react-rating-stars-component';
-import Navbar from '../../components/navbar';
 
 export default function ReviewPage() {
   const [rating, setRating] = useState(0);
@@ -24,7 +23,7 @@ export default function ReviewPage() {
       });
 
       if (response.ok) {
-        setMessage('Review submitted successfully!');
+        setMessage(' !لقد تم تقديم التقييم بنجاح');
         setRating(0);
         setOpinion('');
       } else {
@@ -38,14 +37,13 @@ export default function ReviewPage() {
 
   return (
     <div>
-      <Navbar />
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 direction-rtl text-right">
-        <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+        <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md bg-white">
           <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
             شارك رأيك معنا بتقييم الموقع
           </h1>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="mb-4 ">
               <label
                 htmlFor="rating"
                 className="block text-gray-700 font-semibold mb-2"
