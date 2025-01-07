@@ -29,7 +29,7 @@ function LoginPage() {
       router.push('/login');
       console.log(user);
     } else {
-      router.push('/teachers/dashboard3');
+      router.push('/teachers/dashboard4');
       console.log(user);
     }
   };

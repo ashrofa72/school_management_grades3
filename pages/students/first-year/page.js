@@ -7,7 +7,7 @@ import styles2 from '../../../styles/Table.module.css';
 import { useState, useEffect, useRef } from 'react';
 
 export default function SecondYear() {
-  const [selectedRoom, setSelectedRoom] = useState('2-1');
+  const [selectedRoom, setSelectedRoom] = useState('1-1');
   const [selectedSubject, setSelectedSubject] = useState('Biology');
   const [selectedMonth, setSelectedMonth] = useState('October'); // State for month
   const [dataRows, setDataRows] = useState([]);
