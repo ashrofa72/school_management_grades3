@@ -146,7 +146,7 @@ export default function SecondYear() {
                   English First Language
                 </option>
                 <option value="Maths 1 Arts">Maths 1 Arts</option>
-                <option value="Maths 2">Maths 2</option>
+                <option value="Maths 2 ">Maths 2 </option>
                 <option value="Chemistry">Chemistry</option>
                 <option value="French Second Language">
                   French Second Language
