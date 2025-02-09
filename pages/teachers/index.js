@@ -55,6 +55,9 @@ export default function Students() {
             <Link href="/teachers/review" legacyBehavior>
               <span> نموذج تقييم الخدمة </span>
             </Link>
+            <Link href="/json-to-excel" legacyBehavior>
+              <span>PDF To Excel</span>
+            </Link>
             <Image
               className={styles.info}
               src="/images/second.jpg"
