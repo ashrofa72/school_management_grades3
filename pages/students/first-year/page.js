@@ -174,6 +174,9 @@ export default function SecondYear() {
                 <option value="October">October</option>
                 <option value="November">November</option>
                 <option value="Term 1">Term 1</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="Term 2">Term 2</option>
               </select>
             </div>
           </section>

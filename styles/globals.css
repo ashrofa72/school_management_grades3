@@ -82,10 +82,126 @@ body {
     rgb(var(--background-start-rgb));
   font-family: 'Marhey', serif;
 }
+h2{
+  font-family: 'Almarai', sans-serif; 
+  font-weight: bold;
+  font-size: large;
+}
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+
+/* styles/global.css */
+
+/* Import Marhey font */
+@import url('https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&display=swap');
+
+/* Global Styles */
+body {
+  font-family: 'Marhey', cursive; /* Apply Marhey font globally */
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6; /* Improve readability */
+  direction: rtl; /* Set global text direction to RTL */
+  text-align: right; /* Align text to the right */
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto; /* Center the container horizontally */
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  direction: rtl; /* Ensure container respects RTL */
+  text-align: center; /* Center-align all content inside the container */
+}
+
+h1 {
+  text-align: center; /* Center the heading */
+  color: #333333;
+  margin-bottom: 2rem;
+  font-size: 2rem; /* Larger font size for heading */
+  font-weight: 700; /* Bold weight */
+  letter-spacing: 1px; /* Add spacing between letters */
+}
+
+form {
+  display: flex;
+  flex-direction: column; /* Ensure items are stacked in one column */
+  gap: 1.5rem; /* Add spacing between form elements */
+  align-items: center; /* Center-align all items horizontally */
+  text-align: center; /* Center-align text inside form elements */
+}
+
+label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555555;
+  text-align: right; /* Align labels to the right (RTL) */
+  width: 100%; /* Ensure labels span the full width of the form */
+}
+
+input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Marhey', cursive; /* Ensure input fields use Marhey */
+  direction: ltr; /* Keep file input direction as LTR for usability */
+  text-align: left; /* Align placeholder text to the left */
+  width: 100%; /* Make input fields span the full width of the form */
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Marhey', cursive; /* Ensure button uses Marhey */
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Make the button span the full width of the form */
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* styles/global.css */
+
+input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Marhey', cursive; /* Ensure input fields use Marhey */
+  width: 100%; /* Make input fields span the full width of the form */
+  margin-bottom: 1rem; /* Add spacing below the input field */
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

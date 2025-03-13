@@ -55,7 +55,7 @@ export default function Dashboard() {
       {/* Sidebar */}
       <aside className="w-64 bg-gradient-to-b from-cyan-500 to-blue-600 text-white">
         <div className="p-6 font-bold text-xl text-center">
-          مدرسة فاطمة الزهراء
+           فاطمة الزهراء الثانوية
         </div>
         <nav className="mt-6 ">
           <ul>

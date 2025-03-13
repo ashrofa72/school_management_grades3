@@ -49,6 +49,9 @@ export default function Students() {
             <Link href="/teachers/newform" legacyBehavior>
               <span>الذهاب الى نموذج إدخال الدرجات</span>
             </Link>
+            <Link href="/result-process/" legacyBehavior>
+              <span>الذهاب الى نموذج تعديل ملف الدرجات من المنصة </span>
+            </Link>
             <Link href="/teachers/holidayPremit" legacyBehavior>
               <span> طلب اجازة اعتيادية</span>
             </Link>
