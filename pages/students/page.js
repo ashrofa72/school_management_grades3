@@ -52,6 +52,9 @@ export default function Students() {
             <Link href="/result-process/" legacyBehavior>
               <span>الذهاب الى نموذج تعديل ملف الدرجات من المنصة </span>
             </Link>
+            <Link href="/attendance/page" legacyBehavior>
+              <span>الذهاب الى نموذج ادخال حضور وغياب الطالبات   </span>
+            </Link>
             <Link href="/teachers/holidayPremit" legacyBehavior>
               <span> طلب اجازة اعتيادية</span>
             </Link>

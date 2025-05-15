@@ -106,7 +106,7 @@ body {
   margin: 0;
   padding: 0;
   line-height: 1.6; /* Improve readability */
-  direction: rtl; /* Set global text direction to RTL */
+  
   text-align: right; /* Align text to the right */
 }
 
@@ -117,7 +117,7 @@ body {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  direction: rtl; /* Ensure container respects RTL */
+  
   text-align: center; /* Center-align all content inside the container */
 }
 
