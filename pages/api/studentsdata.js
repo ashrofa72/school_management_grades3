@@ -14,13 +14,14 @@ export default async function handler(req, res) {
       } = req.body;
 
       // Calculate the sum of evaluation entries
-      const { WeeklyEvaluation, Homework, Behavior, MonthlyExams } =
+      const { WeeklyEvaluation, Homework, Behavior, MonthlyExams1,MonthlyExams2 } =
         evaluationData;
       const totalScore =
         (parseFloat(WeeklyEvaluation) || 0) +
         (parseFloat(Homework) || 0) +
         (parseFloat(Behavior) || 0) +
-        (parseFloat(MonthlyExams) || 0);
+        (parseFloat(MonthlyExams1) || 0) +
+        (parseFloat(MonthlyExams2) || 0);
 
       // Authenticate with Google Sheets API
       const auth = new google.auth.GoogleAuth({
@@ -38,7 +39,7 @@ export default async function handler(req, res) {
 
       // Spreadsheet ID and range to write data
       const spreadsheetId = process.env.SPREADSHEET_ID;
-      const range = 'Student_Evaluation!A:F'; // Adjust to match your sheet structure
+      const range = 'Student_Evaluation!A:K'; // Adjust to match your sheet structure
 
       // Prepare the row data to append
       const row = [
@@ -50,7 +51,8 @@ export default async function handler(req, res) {
         WeeklyEvaluation,
         Homework,
         Behavior,
-        MonthlyExams,
+        MonthlyExams1,
+        MonthlyExams2,
         totalScore, // Include the total score
       ];
 

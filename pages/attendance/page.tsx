@@ -113,7 +113,7 @@ export default function Home() {
 
   return (
     <div >
-        <Navbar/>
+        <Navbar />
     <div className="container">
       <h1 className="header">نظام متابعة حضور الطالبات</h1>
       
