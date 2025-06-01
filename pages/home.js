@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '../hooks/useAuthContext';
+import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
@@ -27,7 +28,9 @@ export default function Home() {
 
           {/* Illustration Image */}
           <div className="mt-8 flex justify-center">
-            <img
+            <Image
+            width={500}
+            height={300}
               src="/images/undraw_online-test_20lm.png"
               alt="School Management Illustration"
               className="w-full max-w-md rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300"

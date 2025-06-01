@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export default function TeachersPage() {
   const router = useRouter();
@@ -101,7 +102,9 @@ export default function TeachersPage() {
                 }`}
               >
                 <div className="relative h-32 bg-gradient-to-r from-indigo-500 to-purple-600">
-                  <img 
+                    <Image
+                    width={96}
+                    height={96}
                     src={teacher.avatar} 
                     alt={teacher.name}
                     className="absolute bottom-0 right-0 translate-y-1/2 translate-x-1/4 w-24 h-24 rounded-full object-cover border-4 border-white"

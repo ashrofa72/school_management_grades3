@@ -688,7 +688,7 @@ export default function StudentEvaluationPage() {
                     {failedStudents.map(f => f.studentName).join(', ')}
                   </p>
                   <p className="text-red-500 text-xs mt-2">
-                    اضغط على "إعادة محاولة" لحفظ البيانات المتبقية
+                    اضغط على إعادة محاولة لحفظ البيانات المتبقية
                   </p>
                 </div>
               )}

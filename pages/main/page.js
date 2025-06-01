@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -85,7 +86,7 @@ export default function App() {
             <h2 className="ml-4 text-xl font-bold">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <button onClick={toggleDarkMode} className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
               {darkMode ? <SunIcon /> : <MoonIcon />}
             </button>
@@ -94,7 +95,7 @@ export default function App() {
               <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
             </button>
             <div className="flex items-center">
-              <img src="https://picsum.photos/200/300?random=1" alt="User avatar" className="h-8 w-8 rounded-full object-cover" />
+              <Image src="https://picsum.photos/200/300?random=1" width={100} height={100} alt="User avatar" className="h-8 w-8 rounded-full object-cover" />
               <span className="ml-2 hidden md:inline">Admin User</span>
             </div>
           </div>
